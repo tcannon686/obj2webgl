@@ -598,7 +598,7 @@ void ObjParser<Stream>::writeWebGlCode(
     }
     out << "])" << std::endl;
 
-    out << name << ".indexData = new Uint32Array([";
+    out << name << ".indexData = new Uint16Array([";
     for(auto it = begin(index_array); it != end(index_array); it ++)
     {
         out << *it;
@@ -608,22 +608,20 @@ void ObjParser<Stream>::writeWebGlCode(
     out << "])" << std::endl;
 
     out << name << ".init = function() {" << std::endl;
-    out << name << ".vbo = gl.createBuffers()" << std::endl;
-    out << name << ".ibo = gl.createBuffers()" << std::endl;
+    out << name << ".vbo = gl.createBuffer()" << std::endl;
+    out << name << ".ibo = gl.createBuffer()" << std::endl;
 
     out << "gl.bindBuffer(gl.ARRAY_BUFFER, " << name << ".vbo)" << std::endl;
     out << "gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, " << name << ".ibo)" << std::endl;
 
     out << "gl.bufferData(gl.ARRAY_BUFFER, "
-        << data.size() * sizeof(float) << ", "
         << name << ".data, gl.STATIC_DRAW)" << std::endl;
 
     out << "gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, "
-        << index_array.size() * sizeof(unsigned int) << ", "
         << name << ".indexData, gl.STATIC_DRAW)" << std::endl;
     out << "}" << std::endl << std::endl;
 
-    out << name << ".draw = function(a_Position, a_Normal, a_TexCo) {" << std::endl;
+    out << name << ".render = function(a_Position, a_Normal, a_TexCo) {" << std::endl;
     out << "gl.bindBuffer(gl.ARRAY_BUFFER, " << name << ".vbo)" << std::endl;
     out << "gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, " << name << ".ibo)" << std::endl;
     out << "gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, "
@@ -644,7 +642,7 @@ void ObjParser<Stream>::writeWebGlCode(
     if(nIndices.size() > 0)
     {
         out << "if(a_Normal !== undefined) {" << std::endl;
-        out << "gl.vertexAttribPointer(a_Normal, 3, GL_FLOAT, false, "
+        out << "gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, "
             << stride << ", " << vertex_size + texco_size << ")" << std::endl;
 
         out << "gl.enableVertexAttribArray(a_Normal)" << std::endl;
@@ -653,7 +651,7 @@ void ObjParser<Stream>::writeWebGlCode(
 
     out << "gl.drawElements(gl.TRIANGLES, "
         << index_array.size()
-        << ", gl.UNSIGNED_INT, null)" << std::endl;
+        << ", gl.UNSIGNED_SHORT, 0)" << std::endl;
     out << "}" << std::endl << std::endl;
 }
 
