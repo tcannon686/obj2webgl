@@ -568,91 +568,77 @@ void ObjParser<Stream>::writeWebGlCode(
             tIndices.size() > 0? 2 * sizeof(float) : 0);
     const std::size_t stride = vertex_size + normal_size + texco_size;
 
-    out << "/*" << std::endl;
-    out << " * This file was generated using the obj2webgl tool created by Tom "
-        << std::endl
-        << " * \"The Rammin'\" Cannon." << std::endl
-        << " *" << std::endl
-        << " * Usage:" << std::endl
-        << " *     1. Include this file in your HTML using a <script> tag"
-        << std::endl
-        << " *     2. Call " << name << ".init() after the WebGL canvas is "
-        << " ready" << std::endl
-        << " *     3. Call " << name << ".render(a_Position, a_Normal, a_TexCo)"
-        << std::endl
-        << " *        where each argument represents the location of a vertex"
-        << std::endl
-        << " *        attribute in your render function."
-        << std::endl
+    out << "/*" << std::endl
+        << " * This file was generated using the obj2webgl tool." << std::endl
         << " */" << std::endl << std::endl;
 
 
-    out << "const " << name << " = {}" << std::endl;
+    out << "const " << name << "={};";
 
-    out << name << ".data = new Float32Array([";
+    out << name << ".data=new Float32Array([";
     for(auto it = begin(data); it != end(data); it ++)
     {
         out << *it;
         if(it + 1 != end(data))
-            out << ", ";
+            out << ",";
     }
-    out << "])" << std::endl;
+    out << "]);";
 
-    out << name << ".indexData = new Uint16Array([";
+    out << name << ".indexData=new Uint16Array([";
     for(auto it = begin(index_array); it != end(index_array); it ++)
     {
         out << *it;
         if(it + 1 != end(index_array))
-            out << ", ";
+            out << ",";
     }
-    out << "])" << std::endl;
+    out << "]);";
 
-    out << name << ".init = function() {" << std::endl;
-    out << name << ".vbo = gl.createBuffer()" << std::endl;
-    out << name << ".ibo = gl.createBuffer()" << std::endl;
+    out << name << ".init=function(){";
+    out << name << ".vbo=gl.createBuffer();";
+    out << name << ".ibo=gl.createBuffer();";
 
-    out << "gl.bindBuffer(gl.ARRAY_BUFFER, " << name << ".vbo)" << std::endl;
-    out << "gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, " << name << ".ibo)" << std::endl;
+    out << "gl.bindBuffer(gl.ARRAY_BUFFER," << name << ".vbo);";
+    out << "gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER," << name << ".ibo);";
 
-    out << "gl.bufferData(gl.ARRAY_BUFFER, "
-        << name << ".data, gl.STATIC_DRAW)" << std::endl;
+    out << "gl.bufferData(gl.ARRAY_BUFFER,"
+        << name << ".data,gl.STATIC_DRAW);";
 
-    out << "gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, "
-        << name << ".indexData, gl.STATIC_DRAW)" << std::endl;
-    out << "}" << std::endl << std::endl;
+    out << "gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,"
+        << name << ".indexData,gl.STATIC_DRAW);"
+        << "};";
 
-    out << name << ".render = function(a_Position, a_Normal, a_TexCo) {" << std::endl;
-    out << "gl.bindBuffer(gl.ARRAY_BUFFER, " << name << ".vbo)" << std::endl;
-    out << "gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, " << name << ".ibo)" << std::endl;
-    out << "gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, "
-        << stride << ", null)" << std::endl;
+    out << name << ".render=function(a_Position,a_Normal,a_TexCo){";
+    out << "gl.bindBuffer(gl.ARRAY_BUFFER," << name << ".vbo);";
+    out << "gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER," << name << ".ibo);";
+    out << "gl.vertexAttribPointer(a_Position,3,gl.FLOAT,false,"
+        << stride << ",null);";
     
-    out << "gl.enableVertexAttribArray(a_Position)" << std::endl;
+    out << "gl.enableVertexAttribArray(a_Position);";
     
     if(tIndices.size() > 0)
     {
-        out << "if(a_TexCo !== undefined) {" << std::endl;
-        out << "gl.vertexAttribPointer(a_TexCo, 2, gl.FLOAT, false, "
-            << stride << ", " << vertex_size << ")" << std::endl;
+        out << "if(a_TexCo!==undefined) {";
+        out << "gl.vertexAttribPointer(a_TexCo,2,gl.FLOAT,false,"
+            << stride << "," << vertex_size << ");";
 
-        out << "gl.enableVertexAttribArray(a_TexCo)" << std::endl;
-        out << "}" << std::endl;
+        out << "gl.enableVertexAttribArray(a_TexCo);";
+        out << "}";
     }
 
     if(nIndices.size() > 0)
     {
-        out << "if(a_Normal !== undefined) {" << std::endl;
-        out << "gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, "
-            << stride << ", " << vertex_size + texco_size << ")" << std::endl;
+        out << "if(a_Normal!==undefined){";
+        out << "gl.vertexAttribPointer(a_Normal,3,gl.FLOAT,false,"
+            << stride << "," << vertex_size + texco_size << ");";
 
-        out << "gl.enableVertexAttribArray(a_Normal)" << std::endl;
-        out << "}" << std::endl;
+        out << "gl.enableVertexAttribArray(a_Normal);";
+        out << "}";
     }
 
-    out << "gl.drawElements(gl.TRIANGLES, "
+    out << "gl.drawElements(gl.TRIANGLES,"
         << index_array.size()
-        << ", gl.UNSIGNED_SHORT, 0)" << std::endl;
-    out << "}" << std::endl << std::endl;
+        << ",gl.UNSIGNED_SHORT,0);";
+    out << "};";
 }
 
 #endif /* OBJ_PARSER_H */

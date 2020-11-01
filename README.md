@@ -14,6 +14,9 @@ cat Cube.obj | ./obj2webgl Cube
 cat Cube.obj | ./obj2webgl Cube > cube.js
 ```
 
+Alternatively, you can run `./make_shapes.sh` to generate a `shapes.js` file
+from all the OBJ files in the directory.
+
 The name that comes after `./obj2webgl` is the name of the variable to be used
 in the javascript code. This variable will be turned into an object with two
 functions: `init()`, and `render(a_Position, a_Normal, a_TexCo)`. Call `init()`
