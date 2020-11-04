@@ -2,12 +2,17 @@
 This is a tool that converts from an OBJ file to WebGL code.
 
 ## Usage
-To use the tool, first compile it by running `make`. This will output a program
-called `obj2webgl`. Run the program with this command: `./obj2webgl -o OUTFILE
-INFILE...`, where `OUTFILE` is the name of the file you want to write to, and
-INFILE is a list of OBJ input files. You don't need to specify OUTFILE if you
-want to write directly to STDOUT. Run `./obj2webgl` with no arguments for more
-details, and a full list of options.
+To use the tool, first compile it by running the following commands:
+```
+git submodule update --init
+make
+
+```
+This will output a program called `obj2webgl`. Run the program with this
+command: `./obj2webgl -o OUTFILE INFILE...`, where `OUTFILE` is the name of the
+file you want to write to, and INFILE is a list of OBJ input files. You don't
+need to specify OUTFILE if you want to write directly to STDOUT. Run
+`./obj2webgl` with no arguments for more details, and a full list of options.
 
 ## Prebuilt OBJs
 There is a set of OBJ files in the `objs` folder. You can use these files
