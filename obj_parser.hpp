@@ -11,7 +11,7 @@
 #include <cctype>
 #include <iostream>
 
-#include "matrix.hpp"
+#include "matrix/matrix.hpp"
 
 /**
  * \brief A template based Wavefront OBJ parser
@@ -567,10 +567,6 @@ void ObjParser<Stream>::writeWebGlCode(
     const std::size_t texco_size = (
             tIndices.size() > 0? 2 * sizeof(float) : 0);
     const std::size_t stride = vertex_size + normal_size + texco_size;
-
-    out << "/*" << std::endl
-        << " * This file was generated using the obj2webgl tool." << std::endl
-        << " */" << std::endl << std::endl;
 
 
     out << "const " << name << "={};";

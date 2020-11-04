@@ -2,31 +2,26 @@
 This is a tool that converts from an OBJ file to WebGL code.
 
 ## Usage
-To use the tool, first compile it by running `make`. Next, you can run the
-command `./obj2webgl <name>`, which will read an OBJ file from stdin, and write
-javascript code to stdout. Since the program does not actually read the file,
-you should use cat to read the file and pipe it to obj2webgl. Examples:
-```
-cat Cube.obj | ./obj2webgl Cube
-```
+To use the tool, first compile it by running `make`. This will output a program
+called `obj2webgl`. Run the program with this command: `./obj2webgl -o OUTFILE
+INFILE...`, where `OUTFILE` is the name of the file you want to write to, and
+INFILE is a list of OBJ input files. You don't need to specify OUTFILE if you
+want to write directly to STDOUT. Run `./obj2webgl` with no arguments for more
+details, and a full list of options.
 
-```
-cat Cube.obj | ./obj2webgl Cube > cube.js
-```
+## Prebuilt OBJs
+There is a set of OBJ files in the `objs` folder. You can use these files
+without downloading the program by downloading the `js/shapes.js` file, which
+will be generated from these OBJs by running the command. To use these files,
+add them to your webpage, then call `Shape.init()`, where `Shape` is the name of
+a specific shape from the objs directory (for example `Cube.init()`). Then, call
+`shape.render(a_Position, a_Normal, a_TexCo)` where you want to render the
+shape. Note that `a_Normal` and `a_TexCo` are optional. Pass in `undefined` to
+these values if you don't want to use them.
 
-Alternatively, you can run `./make_shapes.sh` to generate a `shapes.js` file
-from all the OBJ files in the directory.
+## Materials
+There is currently no support for loading materials.
 
-The name that comes after `./obj2webgl` is the name of the variable to be used
-in the javascript code. This variable will be turned into an object with two
-functions: `init()`, and `render(a_Position, a_Normal, a_TexCo)`. Call `init()`
-after the WebGL context is setup, and `render()` to render the object. Note that
-`a_Normal` and `a_TexCo` are optional. For example, if `Cube` was specified as
-the name, the following code would be generated:
-```
-const Cube = {}
-Cube.init = function() {}
-Cube.render = function(a_Position, a_Normal, a_TexCo) {}
-```
-
-This program was tested with simple OBJ files exported from Blender 2.8. Enjoy!
+## Testing
+This program was tested on Arch Linux, and CentOS, using a few simple OBJ models
+exported with Blender 2.9.

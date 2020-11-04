@@ -1,0 +1,3 @@
+[submodule "matrix"]
+	path = matrix
+	url = https://github.com/tcannon686/matrix.git
